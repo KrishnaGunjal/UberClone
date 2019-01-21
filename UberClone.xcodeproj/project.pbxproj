@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7A8A9AE421F653AE00A59ABD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7A8A9AE321F653AE00A59ABD /* GoogleService-Info.plist */; };
 		7AB2FA0221F63FE6000BDDB1 /* RiderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AB2FA0121F63FE6000BDDB1 /* RiderViewController.swift */; };
 		7AB2FA0421F63FFB000BDDB1 /* RequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AB2FA0321F63FFB000BDDB1 /* RequestViewController.swift */; };
 		7AB2FA0621F64039000BDDB1 /* DriverTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AB2FA0521F64039000BDDB1 /* DriverTableViewController.swift */; };
@@ -37,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7A8A9AE321F653AE00A59ABD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7AB2FA0121F63FE6000BDDB1 /* RiderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RiderViewController.swift; sourceTree = "<group>"; };
 		7AB2FA0321F63FFB000BDDB1 /* RequestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestViewController.swift; sourceTree = "<group>"; };
 		7AB2FA0521F64039000BDDB1 /* DriverTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverTableViewController.swift; sourceTree = "<group>"; };
@@ -80,6 +82,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7A8A9ADF21F6534300A59ABD /* View */ = {
+			isa = PBXGroup;
+			children = (
+				7ACCC91121F63DC6004DFD43 /* ViewController.swift */,
+				7ACCC91321F63DC6004DFD43 /* Main.storyboard */,
+				7AB2FA0521F64039000BDDB1 /* DriverTableViewController.swift */,
+				7AB2FA0121F63FE6000BDDB1 /* RiderViewController.swift */,
+				7AB2FA0321F63FFB000BDDB1 /* RequestViewController.swift */,
+				7ACCC91821F63DC7004DFD43 /* LaunchScreen.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		7A8A9AE021F6536500A59ABD /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				7A8A9AE321F653AE00A59ABD /* GoogleService-Info.plist */,
+				7ACCC90F21F63DC6004DFD43 /* AppDelegate.swift */,
+				7ACCC92621F63DC8004DFD43 /* Info.plist */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
 		7ACCC90321F63DC6004DFD43 = {
 			isa = PBXGroup;
 			children = (
@@ -103,14 +128,9 @@
 		7ACCC90E21F63DC6004DFD43 /* UberClone */ = {
 			isa = PBXGroup;
 			children = (
-				7ACCC90F21F63DC6004DFD43 /* AppDelegate.swift */,
-				7ACCC91121F63DC6004DFD43 /* ViewController.swift */,
-				7ACCC91321F63DC6004DFD43 /* Main.storyboard */,
-				7AB2FA0521F64039000BDDB1 /* DriverTableViewController.swift */,
-				7AB2FA0121F63FE6000BDDB1 /* RiderViewController.swift */,
-				7AB2FA0321F63FFB000BDDB1 /* RequestViewController.swift */,
+				7A8A9AE021F6536500A59ABD /* Base */,
+				7A8A9ADF21F6534300A59ABD /* View */,
 				7ACCC91621F63DC7004DFD43 /* Assets.xcassets */,
-				7ACCC91821F63DC7004DFD43 /* LaunchScreen.storyboard */,
 				7ACCC91B21F63DC7004DFD43 /* Info.plist */,
 			);
 			path = UberClone;
@@ -120,7 +140,6 @@
 			isa = PBXGroup;
 			children = (
 				7ACCC92421F63DC8004DFD43 /* UberCloneTests.swift */,
-				7ACCC92621F63DC8004DFD43 /* Info.plist */,
 			);
 			path = UberCloneTests;
 			sourceTree = "<group>";
@@ -239,6 +258,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7ACCC91A21F63DC7004DFD43 /* LaunchScreen.storyboard in Resources */,
+				7A8A9AE421F653AE00A59ABD /* GoogleService-Info.plist in Resources */,
 				7ACCC91721F63DC7004DFD43 /* Assets.xcassets in Resources */,
 				7ACCC91521F63DC6004DFD43 /* Main.storyboard in Resources */,
 			);
