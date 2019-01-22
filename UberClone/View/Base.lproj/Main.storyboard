@@ -134,7 +134,7 @@
                                 </connections>
                             </mapView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FtC-eS-xgo">
-                                <rect key="frame" x="145.5" y="472" width="84" height="30"/>
+                                <rect key="frame" x="127" y="471" width="120" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Call an Uber"/>
                                 <connections>
@@ -153,6 +153,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="callAnUberTapped" destination="FtC-eS-xgo" id="Dbq-6n-Cbv"/>
                         <outlet property="map" destination="4YU-j3-M5s" id="ri5-1K-swH"/>
                     </connections>
                 </viewController>
