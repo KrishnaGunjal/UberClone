@@ -7,16 +7,45 @@
 //
 
 import UIKit
-
-class RiderViewController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+import MapKit
+import CoreLocation
+class RiderViewController: UIViewController,CLLocationManagerDelegate {
+    var locationMager = CLLocationManager()
+    
+    @IBAction func callAnUberButton(_ sender: Any) {
+    }
+    @IBOutlet weak var map: MKMapView!
+    @IBAction func logOutTapped(_ sender: Any) {
     }
     
-
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        locationMager.delegate = self
+        locationMager.desiredAccuracy = kCLLocationAccuracyBest
+        self.locationMager.startUpdatingLocation()
+        locationMager.requestWhenInUseAuthorization()
+        self.locationMager.startUpdatingLocation()
+        self.map.reloadInputViews()
+}
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == CLAuthorizationStatus.authorizedWhenInUse {
+            locationMager.startUpdatingLocation()
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let coord = manager.location?.coordinate {
+            let center = CLLocationCoordinate2D(latitude: coord.latitude, longitude: coord.longitude)
+            let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+            map.setRegion(region, animated: true)
+            map.removeAnnotations(map.annotations)
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = center
+            annotation.title = "Your Location"
+            map.addAnnotation(annotation)
+        }
+    }
     /*
     // MARK: - Navigation
 
