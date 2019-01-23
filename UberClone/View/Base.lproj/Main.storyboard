@@ -24,7 +24,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="rider@gmail.com" borderStyle="roundedRect" placeholder="you@gmail.com" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WKy-NF-h1x">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="driver@gmail.com" borderStyle="roundedRect" placeholder="you@gmail.com" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WKy-NF-h1x">
                                 <rect key="frame" x="20" y="56" width="335" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -112,6 +112,7 @@
                         <outlet property="txtEmail" destination="WKy-NF-h1x" id="6q5-Xz-E9b"/>
                         <outlet property="txtPassword" destination="enj-VV-HOD" id="E0h-hl-oDb"/>
                         <segue destination="0Yq-Sg-Ele" kind="presentation" identifier="riderSegue" id="0XI-zq-B1o"/>
+                        <segue destination="SBk-dh-AUn" kind="presentation" identifier="driverSegue" id="zDf-TK-xIF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -146,7 +147,7 @@
                         <viewLayoutGuide key="safeArea" id="jg6-3h-AXn"/>
                     </view>
                     <navigationItem key="navigationItem" title="Uber" id="nm0-5Z-sh1">
-                        <barButtonItem key="leftBarButtonItem" title="Log Out" id="eiN-gl-jLF">
+                        <barButtonItem key="leftBarButtonItem" title="Logout" id="eiN-gl-jLF">
                             <connections>
                                 <action selector="logOutTapped:" destination="miB-wf-WJj" id="F1v-vg-o05"/>
                             </connections>
@@ -170,7 +171,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="Gt9-vK-TBN">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="Gt9-vK-TBN">
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Gt9-vK-TBN" id="20m-jn-Emz">
@@ -184,10 +185,20 @@
                             <outlet property="delegate" destination="faG-nl-hDi" id="dN8-9P-dbj"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" id="bd3-c5-iEL">
+                        <barButtonItem key="leftBarButtonItem" title="Logout" id="jdZ-rM-Xv4">
+                            <connections>
+                                <action selector="logoutTapped:" destination="faG-nl-hDi" id="Ypl-fN-Edq"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <segue destination="dNB-Ur-09e" kind="show" identifier="acceptRequest" id="hQt-wG-9Uo"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="E60-vI-vHm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1238" y="824"/>
+            <point key="canvasLocation" x="2176.8000000000002" y="823.53823088455783"/>
         </scene>
         <!--Request View Controller-->
         <scene sceneID="yub-IF-JaX">
@@ -197,23 +208,35 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="DlH-tn-MXK">
-                                <rect key="frame" x="36" y="63" width="295" height="217"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="DlH-tn-MXK">
+                                <rect key="frame" x="20" y="84" width="335" height="329"/>
                             </mapView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nhs-pc-uzT">
-                                <rect key="frame" x="36" y="330" width="295" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nhs-pc-uzT">
+                                <rect key="frame" x="141" y="453" width="93" height="30"/>
                                 <state key="normal" title="Pick Up Rider"/>
+                                <connections>
+                                    <action selector="acceptTapped:" destination="dNB-Ur-09e" eventType="touchUpInside" id="XKj-Pa-gla"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="nhs-pc-uzT" firstAttribute="top" secondItem="DlH-tn-MXK" secondAttribute="bottom" constant="40" id="NN6-w3-KGv"/>
+                            <constraint firstItem="gsE-aG-NoF" firstAttribute="bottom" secondItem="nhs-pc-uzT" secondAttribute="bottom" constant="184" id="WRI-bJ-HEk"/>
+                            <constraint firstItem="DlH-tn-MXK" firstAttribute="top" secondItem="gsE-aG-NoF" secondAttribute="top" constant="20" id="am9-tr-vyq"/>
+                            <constraint firstItem="DlH-tn-MXK" firstAttribute="leading" secondItem="gsE-aG-NoF" secondAttribute="leading" constant="20" id="bDT-aI-flX"/>
+                            <constraint firstItem="gsE-aG-NoF" firstAttribute="trailing" secondItem="DlH-tn-MXK" secondAttribute="trailing" constant="20" id="iX8-Hr-SFg"/>
+                            <constraint firstItem="nhs-pc-uzT" firstAttribute="centerX" secondItem="SIJ-GE-hKE" secondAttribute="centerX" id="m2V-vv-unb"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="gsE-aG-NoF"/>
                     </view>
+                    <connections>
+                        <outlet property="map" destination="DlH-tn-MXK" id="FMh-Da-0BY"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1lH-Il-INV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2165.5999999999999" y="812.74362818590714"/>
+            <point key="canvasLocation" x="3116" y="823.53823088455783"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="7lV-Kx-3KT">
@@ -232,6 +255,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8RS-Cf-HGp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1237.5999999999999" y="133.5832083958021"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="fNG-d3-ikf">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="SBk-dh-AUn" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="1sw-SO-raA">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="faG-nl-hDi" kind="relationship" relationship="rootViewController" id="oMs-es-VeU"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iT3-C1-fb6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1237.5999999999999" y="823.53823088455783"/>
         </scene>
     </scenes>
 </document>

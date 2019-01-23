@@ -16,9 +16,8 @@ class RiderViewController: UIViewController,CLLocationManagerDelegate {
     var locationMager = CLLocationManager()
     var userLocation = CLLocationCoordinate2D()
     var uberCalled = false
-    
-    
     @IBOutlet weak var callAnUberTapped: UIButton!
+    
     @IBAction func callAnUberButton(_ sender: Any) {
         if let email = Auth.auth().currentUser?.email {
             if uberCalled {

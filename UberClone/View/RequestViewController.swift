@@ -7,24 +7,46 @@
 //
 
 import UIKit
+import MapKit
+import FirebaseDatabase
 
 class RequestViewController: UIViewController {
-
+    var email : String!
+    var requestLocation = CLLocationCoordinate2D()
+    var driverLocation = CLLocationCoordinate2D()
+    
+    @IBOutlet weak var map: MKMapView!
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        let region = MKCoordinateRegion(center: requestLocation, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+        map.setRegion(region, animated: true)
+        
+        let annotation = MKPointAnnotation()
+        annotation.title = email
+        annotation.coordinate = requestLocation
+        map.addAnnotation(annotation)
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @IBAction func acceptTapped(_ sender: Any) {
+        //Updating Ride Request
+        Database.database().reference().child("RideRequests").queryOrdered(byChild: "email").queryEqual(toValue: email).observe(.childAdded) { (snapshot) in
+            snapshot.ref.updateChildValues(["driverLat":self.driverLocation.latitude,"driverLong":self.driverLocation.longitude])
+            Database.database().reference().child("RideRequests").removeAllObservers()
+        }
+        //Give Directions
+        let reqLoc = CLLocation(latitude: requestLocation.latitude, longitude: requestLocation.longitude)
+        CLGeocoder().reverseGeocodeLocation(reqLoc) { (placemarks, error) in
+            if let placemarks = placemarks{
+                if placemarks.count > 0{
+                    let placemark = MKPlacemark(placemark: placemarks[0])
+                    let mapItem = MKMapItem(placemark: placemark)
+                    mapItem.name = self.email
+                    let options = [MKLaunchOptionsDirectionsModeKey:MKLaunchOptionsDirectionsModeDriving]
+                    mapItem.openInMaps(launchOptions: options)
+                }
+            }
+        }
+        
     }
-    */
-
+    
 }

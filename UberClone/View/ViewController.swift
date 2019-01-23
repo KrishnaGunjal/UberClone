@@ -19,6 +19,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var riderLabel: UILabel!
     @IBOutlet weak var driverLabel: UILabel!
     var signUpMode = true
+    
     @IBAction func topClicked(_ sender: Any) {
         if txtEmail.text == "" || txtPassword.text == "" {
             displayAlert(title: "Missing Information", message: "You must provide both Email and Password")
@@ -33,6 +34,18 @@ class ViewController: UIViewController {
                                 self.displayAlert(title: "Error", message: (error?.localizedDescription)!)
                             }
                             else{
+                                if self.riderDriverSwitch.isOn{
+                                    //Driver
+                                    let request = Auth.auth().currentUser?.createProfileChangeRequest()
+                                    request?.displayName = "Driver"
+                                    request?.commitChanges(completion: nil)
+                                }
+                                else{
+                                    //Rider
+                                    let request = Auth.auth().currentUser?.createProfileChangeRequest()
+                                    request?.displayName = "Rider"
+                                    request?.commitChanges(completion: nil)
+                                }
                                 print("Sign Up success")
                                 self.performSegue(withIdentifier: "riderSegue", sender: nil)
                             }
@@ -45,8 +58,16 @@ class ViewController: UIViewController {
                                 self.displayAlert(title: "Error", message: (error?.localizedDescription)!)
                             }
                             else{
+                                if Auth.auth().currentUser?.displayName == "Driver"{
+                                    //Driver
+                                    self.performSegue(withIdentifier: "driverSegue", sender: nil)
+                                }else{
+                                    //Rider
+                                    self.performSegue(withIdentifier: "riderSegue", sender: nil)
+                                }
+                                
                                 print("Sign In success")
-                                self.performSegue(withIdentifier: "riderSegue", sender: nil)
+                                
                             }
                         }
                     }

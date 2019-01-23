@@ -7,84 +7,103 @@
 //
 
 import UIKit
+import FirebaseAuth
+import FirebaseDatabase
+import MapKit
 
-class DriverTableViewController: UITableViewController {
-
+class DriverTableViewController: UITableViewController,CLLocationManagerDelegate {
+    var riderReq = [DataSnapshot]()
+    let locationManager = CLLocationManager()
+    var driverLocation = CLLocationCoordinate2D()
+    
+    
+    @IBAction func logoutTapped(_ sender: Any) {
+        try? Auth.auth().signOut()
+        self.navigationController?.dismiss(animated: true, completion: nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        self.locationManager.startUpdatingLocation()
+        locationManager.requestWhenInUseAuthorization()
+        
+        Database.database().reference().child("RideRequests").observe(.childAdded) { (snapshot) in
+            self.riderReq.append(snapshot)
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+            //If driver moved then it will update the location
+            Timer.scheduledTimer(withTimeInterval: 3, repeats: true, block: { (timer) in
+                self.tableView.reloadData()
+            })
+        }
     }
-
-    // MARK: - Table view data source
-
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let coordinate = locationManager.location?.coordinate {
+            driverLocation = coordinate
+        }
+    }
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        return riderReq.count
     }
-
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
+        let snapshot = riderReq[indexPath.row]
+        if let reqDict = snapshot.value as? [String:Any]{
+            if let email = reqDict["email"]as? String{
+                if let lat = reqDict["lat"]as? Double{
+                    if let long = reqDict["long"]as? Double{
+                        let driverCLloc = CLLocation(latitude: driverLocation.latitude, longitude: driverLocation.longitude)
+                        // print("*********\(driverCLloc.coordinate.latitude)*********")
+                        let riderCLloc = CLLocation(latitude: lat, longitude: long)
+                        let distance = driverCLloc.distance(from: riderCLloc)/1000
+                        let roundedDistance = round(distance * 100)/100
+                        cell.textLabel?.text = email
+                        cell.detailTextLabel?.text = "\(roundedDistance)Km. away"
+                    }
+                }
+            }
+        }
         return cell
     }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70
     }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let snapshot = riderReq[indexPath.row]
+        performSegue(withIdentifier: "acceptRequest", sender: snapshot)
     }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        let requestVC = segue.destination as! RequestViewController
+        if let snapshot = sender as? DataSnapshot {
+            if let reqDict = snapshot.value as? [String:Any]{
+                if let email = reqDict["email"]as? String{
+                    if let lat = reqDict["lat"]as? Double{
+                        if let long = reqDict["long"]as? Double{
+                            requestVC.email = email
+                            let location = CLLocationCoordinate2D(latitude: lat, longitude: long)
+                            requestVC.requestLocation = location
+                            requestVC.driverLocation = driverLocation
+                        }
+                    }
+                }
+            }
+        }
+        
     }
-    */
-
+    
+    
+    
 }
