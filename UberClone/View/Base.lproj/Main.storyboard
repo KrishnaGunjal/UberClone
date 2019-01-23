@@ -51,13 +51,6 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5zE-As-Who">
-                                <rect key="frame" x="161" y="235" width="66" height="30"/>
-                                <state key="normal" title="Sign Up"/>
-                                <connections>
-                                    <action selector="topClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ort-jL-vk3"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Or" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nMx-RS-Xi6">
                                 <rect key="frame" x="161" y="273" width="52" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -69,6 +62,13 @@
                                 <state key="normal" title="Switch to Log In"/>
                                 <connections>
                                     <action selector="bottomClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="lhj-65-QYr"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5zE-As-Who">
+                                <rect key="frame" x="112" y="235" width="149" height="30"/>
+                                <state key="normal" title="SignUp"/>
+                                <connections>
+                                    <action selector="topClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ort-jL-vk3"/>
                                 </connections>
                             </button>
                         </subviews>

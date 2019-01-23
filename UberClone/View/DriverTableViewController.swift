@@ -30,15 +30,21 @@ class DriverTableViewController: UITableViewController,CLLocationManagerDelegate
         locationManager.requestWhenInUseAuthorization()
         
         Database.database().reference().child("RideRequests").observe(.childAdded) { (snapshot) in
+            if let rideReqDict = snapshot.value as? [String:AnyObject]{
+                if let driverLat = rideReqDict["driverLat"] as? Double{
+                }
+                else{
             self.riderReq.append(snapshot)
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
+                }
             //If driver moved then it will update the location
             Timer.scheduledTimer(withTimeInterval: 3, repeats: true, block: { (timer) in
                 self.tableView.reloadData()
             })
         }
+    }
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
