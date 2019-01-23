@@ -162,7 +162,7 @@
             </objects>
             <point key="canvasLocation" x="2178.4000000000001" y="133.5832083958021"/>
         </scene>
-        <!--Driver Table View Controller-->
+        <!--Ride Requests-->
         <scene sceneID="liT-tb-s0J">
             <objects>
                 <tableViewController id="faG-nl-hDi" customClass="DriverTableViewController" customModule="UberClone" customModuleProvider="target" sceneMemberID="viewController">
@@ -185,7 +185,7 @@
                             <outlet property="delegate" destination="faG-nl-hDi" id="dN8-9P-dbj"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="bd3-c5-iEL">
+                    <navigationItem key="navigationItem" title="Ride Requests" id="bd3-c5-iEL">
                         <barButtonItem key="leftBarButtonItem" title="Logout" id="jdZ-rM-Xv4">
                             <connections>
                                 <action selector="logoutTapped:" destination="faG-nl-hDi" id="Ypl-fN-Edq"/>
