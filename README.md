@@ -7,7 +7,7 @@ Sign Up for Rider
 
 
 
-Sign Up for Rider
+Sign Up for Driver
 
 ![alt text](https://github.com/KrishnaGunjal/UberClone/blob/master/Screenshots/Driver%20Sign%20Up.png)
 
