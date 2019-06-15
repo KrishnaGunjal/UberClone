@@ -16,26 +16,32 @@ class RiderViewController: UIViewController,CLLocationManagerDelegate {
     var locationMager = CLLocationManager()
     var userLocation = CLLocationCoordinate2D()
     var driverLocation = CLLocationCoordinate2D()
+    var driverOnTheWay = false
+    
     
     var uberCalled = false
     @IBOutlet weak var callAnUberTapped: UIButton!
     
     @IBAction func callAnUberButton(_ sender: Any) {
-        if let email = Auth.auth().currentUser?.email {
-            if uberCalled {
-                uberCalled = false
-                callAnUberTapped.setTitle("Call an Uber", for: .normal)
-                Database.database().reference().child("RideRequests").queryOrdered(byChild: "email").queryEqual(toValue: email).observe(.childAdded) { (snapshot) in
-                    snapshot.ref.removeValue()
-                    Database.database().reference().child("RideRequests").removeAllObservers()
+        if driverOnTheWay == false {
+            
+            
+            if let email = Auth.auth().currentUser?.email {
+                if uberCalled {
+                    uberCalled = false
+                    callAnUberTapped.setTitle("Call an Uber", for: .normal)
+                    Database.database().reference().child("RideRequests").queryOrdered(byChild: "email").queryEqual(toValue: email).observe(.childAdded) { (snapshot) in
+                        snapshot.ref.removeValue()
+                        Database.database().reference().child("RideRequests").removeAllObservers()
+                    }
                 }
-            }
-            else{
-                let rideReqDict : [String:Any] = ["email":email, "lat":userLocation.latitude, "long":userLocation.longitude]
-                Database.database().reference().child("RideRequests").childByAutoId().setValue(rideReqDict)
-                uberCalled = true
-                callAnUberTapped.setTitle("Cancel Uber", for: .normal)
-                
+                else{
+                    let rideReqDict : [String:Any] = ["email":email, "lat":userLocation.latitude, "long":userLocation.longitude]
+                    Database.database().reference().child("RideRequests").childByAutoId().setValue(rideReqDict)
+                    uberCalled = true
+                    callAnUberTapped.setTitle("Cancel Uber", for: .normal)
+                    
+                }
             }
         }
     }
@@ -43,7 +49,7 @@ class RiderViewController: UIViewController,CLLocationManagerDelegate {
     @IBOutlet weak var map: MKMapView!
     
     @IBAction func logOutTapped(_ sender: Any) {
-       try? Auth.auth().signOut()
+        try? Auth.auth().signOut()
         self.navigationController?.dismiss(animated: true, completion: nil)
     }
     
@@ -62,9 +68,29 @@ class RiderViewController: UIViewController,CLLocationManagerDelegate {
                 self.callAnUberTapped.setTitle("Cancel Uber", for: .normal)
                 
                 Database.database().reference().child("RideRequests").removeAllObservers()
+                
+                if let rideReqDict = snapshot.value as? [String:AnyObject]{
+                    if let driverLat = rideReqDict["driverLat"] as? Double{
+                        if let driverLong = rideReqDict["driverong"] as? Double{
+                            self.driverLocation = CLLocationCoordinate2D(latitude: driverLat, longitude: driverLong)
+                            self.driverOnTheWay = true
+                            self.displayDriverANdRider()
+                        }
+                    }
+                }
             }
         }
-}
+    }
+    
+    func displayDriverANdRider(){
+        let driverLoc = CLLocation(latitude: driverLocation.latitude, longitude: driverLocation.longitude)
+        let riderLoc = CLLocation(latitude: userLocation.latitude, longitude: userLocation.longitude)
+        let distance = driverLoc.distance(from: riderLoc)/1000
+        let roundedDistance = round(distance * 100)/100
+        callAnUberTapped.setTitle("Your Driver is \(roundedDistance)Km. away", for: .normal)
+        
+        
+    }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         if status == CLAuthorizationStatus.authorizedWhenInUse {
@@ -83,18 +109,18 @@ class RiderViewController: UIViewController,CLLocationManagerDelegate {
             annotation.coordinate = center
             annotation.title = "Your Location"
             map.addAnnotation(annotation)
-             self.map.showsUserLocation = true
+            self.map.showsUserLocation = true
             map.reloadInputViews()
         }
     }
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }

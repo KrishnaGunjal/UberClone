@@ -64,6 +64,7 @@ class ViewController: UIViewController {
                                 }else{
                                     //Rider
                                     self.performSegue(withIdentifier: "riderSegue", sender: nil)
+    
                                 }
                                 
                                 print("Sign In success")
@@ -102,7 +103,6 @@ class ViewController: UIViewController {
     }
     
     override func viewDidLoad() {
-        
     }
     
     
